@@ -1,8 +1,10 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect  } from "react";
+import { Link } from "react-router-dom";
 import { ShopContext } from "../context/shopContext";
 import { assets } from "../assets/assets";
 import Title from "../components/Title";
 import ProductItem from "../components/ProductItem";
+
 const Collection = () => {
   const { products,search,showSearch } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
@@ -155,21 +157,23 @@ const Collection = () => {
           </select>
         </div>
         {/* Map Products */}
-        {sortedProducts.length >0 ? (
 
-       
+        {sortedProducts.length >0 ? (
         <div className="grid gird-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
           {sortedProducts.map((item, index) => (
             <ProductItem
               key={index}
-              id={item.id}
+              id={item._id}
               image={item.image}
               name={item.name}
               price={item.price}
               category={item.category}
               subCategory={item.subCategory}
             />
-          ))}
+            
+          )
+          
+          )}
         </div>  ):(
            <div className="text-center text-gray-500 mt-10">
            <p>No products found for "{search}"</p>
