@@ -32,4 +32,4 @@ useEffect(() => {
   )
 }
 
-export default RelatedProduct
+export default RelatedProduct;
