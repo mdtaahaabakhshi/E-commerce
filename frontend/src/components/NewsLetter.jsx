@@ -16,3 +16,4 @@ e.preventDefault();
     </div>
   )
 }
+export default NewsLetter;
