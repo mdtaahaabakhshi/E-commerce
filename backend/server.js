@@ -3,7 +3,9 @@ import cors from 'cors';
 import 'dotenv/config';
 import connectDB from './config/mongodb.js';
 import connectToCloudinary from './config/cloudinary.js';
-import router from './routes/userRoute.js';
+import userRouter from './routes/userRouter.js'
+// import productRouter from './routes/productRouter.js';
+import productRouter from './routes/productRouter.js';
 
 //* App config
 const app = express();  
@@ -18,7 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 
 
 //* api endpoints
-app.use('/api/user',router);
+app.use('/api/user', userRouter);
+app.use('/api/product', productRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

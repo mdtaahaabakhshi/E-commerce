@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
       default: {},
     },
   },
-  { minimize: false, timestamps: true }
+  { minimize: false }
 );
 
 const UserModel = mongoose.models.user || mongoose.model("User", userSchema);

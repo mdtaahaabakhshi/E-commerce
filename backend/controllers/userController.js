@@ -3,15 +3,41 @@ import bcrypt from "bcrypt";
 import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 
-//Route for user login
-const loginUser = async (req, res) => {
-  res.json({ mssg: "login user" });
-};
 
-// Function to create JWT token
 const createToken = (id, email) => {
   return jwt.sign({ id, email }, process.env.JWT_SECRET);
 };
+
+
+//Route for user login
+const loginUser = async (req, res) => {
+
+  try {
+    const { email, password } = req.body;
+
+    // Check if user exists
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ success: false, error: "User not found" });
+    }
+    // Check if password is correct
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ success: false, error: "Invalid credentials" });
+    }
+    // Create JWT token
+    const token = createToken(user._id, user.email);
+    res.json({ success: true, token, });
+    res.status(200).json({ message: "User logged in successfully" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+  
+};
+
+// Function to create JWT token
+
 
 //Route for user registration
 const registerUser = async (req, res) => {
@@ -25,10 +51,12 @@ const registerUser = async (req, res) => {
         .status(400)
         .json({ success: false, error: "User already exists" });
     }
+
     // Validate email
     if (!validator.isEmail(email)) {
       return res.status(400).json({ error: "Invalid email address" });
     }
+
     // Validate password
     if (!validator.isStrongPassword(password)) { //minlength-8, lowercase-1, uppercase-1, symbol-1
     // if (password.length < 8) {
@@ -37,18 +65,20 @@ const registerUser = async (req, res) => {
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
+
     // Create new user
     const newUser = new userModel({
       name,
       email,
       password: hashedPassword,
     });
-    const user = await newUser.save();
+
+    const user = await newUser.save();f
 
     const token = createToken(user._id, user.email);
     res.json({ success: true, token });
-
     res.status(201).json({ message: "User registered successfully" });
+
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: error.message });
