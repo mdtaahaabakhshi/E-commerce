@@ -3,15 +3,13 @@ import bcrypt from "bcrypt";
 import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 
-
+// Function to create JWT token
 const createToken = (id, email) => {
   return jwt.sign({ id, email }, process.env.JWT_SECRET);
 };
 
-
 //Route for user login
 const loginUser = async (req, res) => {
-
   try {
     const { email, password } = req.body;
 
@@ -23,21 +21,19 @@ const loginUser = async (req, res) => {
     // Check if password is correct
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ success: false, error: "Invalid credentials" });
+      return res
+        .status(400)
+        .json({ success: false, error: "Invalid credentials" });
     }
     // Create JWT token
     const token = createToken(user._id, user.email);
-    res.json({ success: true, token, });
+    res.json({ success: true, token });
     res.status(200).json({ message: "User logged in successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: error.message });
   }
-  
 };
-
-// Function to create JWT token
-
 
 //Route for user registration
 const registerUser = async (req, res) => {
@@ -58,8 +54,9 @@ const registerUser = async (req, res) => {
     }
 
     // Validate password
-    if (!validator.isStrongPassword(password)) { //minlength-8, lowercase-1, uppercase-1, symbol-1
-    // if (password.length < 8) {
+    if (!validator.isStrongPassword(password)) {
+      //minlength-8, lowercase-1, uppercase-1, symbol-1
+      // if (password.length < 8) {
       return res.status(400).json({ error: "Weak password" });
     }
 
@@ -73,12 +70,11 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    const user = await newUser.save();f
+    const user = await newUser.save();
 
     const token = createToken(user._id, user.email);
     res.json({ success: true, token });
     res.status(201).json({ message: "User registered successfully" });
-
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: error.message });
@@ -86,6 +82,25 @@ const registerUser = async (req, res) => {
 };
 
 //Route for admin login
-const adminLogin = async (req, res) => {};
+const adminLogin = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      // Create JWT token
+      const token = jwt.sign(email + password, process.env.JWT_SECRET);
+      res.json({ success: true, token });
+    } else {
+      res.status(401).json({ success: false, error: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+  
+};
 
 export { loginUser, registerUser, adminLogin };
