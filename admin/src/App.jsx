@@ -6,10 +6,15 @@ const App = () => {
   return (
     
     <div className='bg-gray-50 min-h-screen'>
+      <>
+      
     <Navbar/>
-    <Sidebar/>
+    
     <hr />
-    <div className='flex w-full'></div>
+    <div className='flex w-full'>
+      <Sidebar/>
+    </div>
+    </>
     </div>
   )
 }
