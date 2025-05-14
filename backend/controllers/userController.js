@@ -93,6 +93,7 @@ const adminLogin = async (req, res) => {
       // Create JWT token
       const token = jwt.sign(email + password, process.env.JWT_SECRET);
       res.json({ success: true, token });
+      res.cookie("Token",token)
     } else {
       res.status(401).json({ success: false, error: "Invalid credentials" });
     }
