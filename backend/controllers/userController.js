@@ -35,6 +35,18 @@ const loginUser = async (req, res) => {
   }
 };
 
+
+//  Route for logout user
+const logoutUser = (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "lax",
+    
+  });
+  res.json({ success: true, message: "Logged out successfully" });
+};
+
+
 //Route for user registration
 const registerUser = async (req, res) => {
   try {
@@ -92,16 +104,18 @@ const adminLogin = async (req, res) => {
     ) {
       // Create JWT token
       const token = jwt.sign(email + password, process.env.JWT_SECRET);
-      res.json({ success: true, token });
-      res.cookie("Token",token)
+      res.cookie("token", token, {
+        httpOnly: true,
+        sameSite: "lax",
+      });
+      return res.json({ success: true, token });
     } else {
-      res.status(401).json({ success: false, error: "Invalid credentials" });
+       return res.status(401).json({ success: false, error: "Invalid credentials" });
     }
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
-  
 };
 
-export { loginUser, registerUser, adminLogin };
+export { loginUser, registerUser, adminLogin ,logoutUser};

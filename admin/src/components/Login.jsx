@@ -10,16 +10,22 @@ const Login = ({ setToken }) => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const response = await axios.post(backendUrl + "/api/user/admin", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        backendUrl + "/api/user/admin",
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
       if (response.data.success) {
-        setToken(response.data.token);
+        toast.success(response.data.message);
+        setToken(response.data.success);
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
+      console.log(error);
       toast.error(error.message);
     }
   };

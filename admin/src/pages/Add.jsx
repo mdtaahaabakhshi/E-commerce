@@ -38,7 +38,8 @@ const Add = ({token}) => {
       formData.append("sizes", JSON.stringify(sizes));
 
 
-      const response = await axios.post(backendUrl + "/api/product/add", formData, { headers: { token } });
+      const response = await axios.post(backendUrl + "/api/product/add", formData, 
+  { withCredentials: true })
       if (response.data.success) {
         toast.success(response.data.message)
         setName('')

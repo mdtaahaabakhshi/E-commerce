@@ -6,6 +6,7 @@ import connectToCloudinary from './config/cloudinary.js';
 import userRouter from './routes/userRouter.js'
 // import productRouter from './routes/productRouter.js';
 import productRouter from './routes/productRouter.js';
+import cookieParser from 'cookie-parser';
 
 //* App config
 const app = express();  
@@ -14,10 +15,13 @@ connectDB();
 connectToCloudinary();
 
 //* Middleware
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5174", // or your frontend URL
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use(cookieParser())
 
 //* api endpoints
 app.use('/api/user', userRouter);
