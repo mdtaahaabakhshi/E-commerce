@@ -31,9 +31,8 @@ const addProduct = async (req, res) => {
         });
         return result.secure_url;
       })
-    );  
+    );
 
-  
     const product = new ProductModel({
       name,
       description,
@@ -46,57 +45,60 @@ const addProduct = async (req, res) => {
       date: Date.now(),
     });
     await product.save();
-    res.status(201).json({ success: true, message: "Product added successfully", product });
-//   console.log(product)
-  } 
-  catch (error) {
+    res
+      .status(201)
+      .json({ success: true, message: "Product added successfully", product });
+    //   console.log(product)
+  } catch (error) {
     // res.status(500).json({ message: "Error adding product",  });
-    res.status(500).json({ message:error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
 //remove product
-const removeProduct = async (req, res) => {;
-    try {
+const removeProduct = async (req, res) => {
+  try {
+    await ProductModel.findByIdAndDelete(req.body.id);
 
-  await ProductModel.findByIdAndDelete(req.body.id);
-      
-        res.status(200).json({ message: "Product removed successfully" });
-    } catch (error) {
-        res.status(500).json({ message: "Error removing product", message:error.message  });
-    }
-    };
+    res
+      .status(200)
+      .json({ success: true, message: "Product removed successfully" });
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Error removing product",
+        message: error.message,
+      });
+  }
+};
 
 //list product
-const listProduct = async (req, res) => {;
- try {
-    
+const listProduct = async (req, res) => {
+  try {
     const products = await ProductModel.find({});
-    res.status(200).json(products);
-  }
-  catch (error) {
+    res.status(200).json({ success: true, products });
+  } catch (error) {
     console.error("Error fetching products:", error);
-    res.status(500).json({ message: "Error fetching products" , message:error.message });
+    res
+      .status(500)
+      .json({ message: "Error fetching products", message: error.message });
   }
-    
- }
-
+};
 
 //single product
 const singleProduct = async (req, res) => {
-    try {
-const { productId } = req.body;
+  try {
+    const { productId } = req.body;
 
-        // const product = await ProductModel.findById(req.body.id);
+    // const product = await ProductModel.findById(req.body.id);
 
-        const product = await ProductModel.findById(productId);
-        res.status(200).json({ success: true, product });
-    } catch (error) {
-        res.status(500).json({ success:false, message:error.message  });
-    }
-    };
-
-
-
+    const product = await ProductModel.findById(productId);
+    res.status(200).json({ success: true, product });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 export { addProduct, removeProduct, listProduct, singleProduct };
