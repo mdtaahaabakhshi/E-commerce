@@ -1,13 +1,10 @@
 import jwt from "jsonwebtoken";
-import { adminLogin } from "../controllers/userController.js";
 
 const adminAuth = (req, res, next) => {
   // const {token} = req.headers;
-// console.log( "admin" ,token);
+
 const token = req.cookies.token
 // if (!token) {
-// //   return res.status(401).json({ message: "Unauthorized Access!" });
-// // }
 //   return res.status(401).json({ message: "Unauthorized Access!" });
 // }
 

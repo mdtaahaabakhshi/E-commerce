@@ -27,8 +27,7 @@ const loginUser = async (req, res) => {
     }
     // Create JWT token
     const token = createToken(user._id, user.email);
-    res.json({ success: true, token });
-    res.status(200).json({ message: "User logged in successfully" });
+    res.status(200).json({ success: true, token, message: "User logged in successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: error.message });
@@ -85,8 +84,7 @@ const registerUser = async (req, res) => {
     const user = await newUser.save();
 
     const token = createToken(user._id, user.email);
-    res.json({ success: true, token });
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({success: true, token, message: "User registered successfully" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: error.message });
@@ -108,13 +106,15 @@ const adminLogin = async (req, res) => {
         httpOnly: true,
         sameSite: "lax",
       });
-      return res.json({ success: true, token });
+      return res.json({ success: true, token,message: "Login successful" });
     } else {
-       return res.status(401).json({ success: false, error: "Invalid credentials" });
+       return res.status(401).json({ success: false, 
+        message:"Invalid Credentials"
+       });
     }
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: error.message });
+    res.json({ success: false, message: error.message  });
   }
 };
 

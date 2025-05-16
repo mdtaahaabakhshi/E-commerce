@@ -2,12 +2,18 @@ import React from 'react'
 import {assets} from '../assets/assets'
 import axios from 'axios';
 import { backendUrl } from '../App';
+import { toast } from 'react-toastify';
 
-const Navbar = ( {setToken}) => {
+const Navbar = ( {setIsLoggedIn}) => {
 const handleLogout = async () => {
-    await axios.post(backendUrl + "/api/user/logout", {}, { withCredentials: true });
-    setToken(''); // This will show the login page
-  };
+
+  const response=  await axios.post(backendUrl + "/api/user/logout",{}, { withCredentials: true });
+     setIsLoggedIn(false)// This will show the login page
+if(response.data.success){
+  toast.success(response.data.message)
+}
+
+  }
   
   return (
 <div className='flex items-center py-2 px-[4%] justify-between'>

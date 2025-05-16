@@ -4,7 +4,7 @@ import { backendUrl } from "../App";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const Login = ({ setToken }) => {
+const Login = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const handleSubmit = async (e) => {
@@ -20,13 +20,13 @@ const Login = ({ setToken }) => {
       );
       if (response.data.success) {
         toast.success(response.data.message);
-        setToken(response.data.success);
+        // setToken(response.data.success);
+        onLoginSuccess()
       } else {
         toast.error(response.data.message);
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.message);
+      toast.error(error.response.data.message);
     }
   };
 
