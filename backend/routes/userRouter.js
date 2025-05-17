@@ -8,9 +8,9 @@ const userRouter = express.Router();
  userRouter.post('/register', registerUser);
  userRouter.post('/admin', adminLogin);
  userRouter.post('/logout', logoutUser);
- userRouter.get('/admin/check', adminAuth, (req, res) => {
+ userRouter.get('/check', adminAuth, (req, res) => {
   res.json({ success: true });
-});;
+});
 
 
 export default  userRouter;

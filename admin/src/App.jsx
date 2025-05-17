@@ -21,7 +21,7 @@ const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
   useEffect(() => {
     axios
-      .get(backendUrl + "/api/user/admin/check",{ withCredentials: true })
+      .get(backendUrl + "/api/user/check",{ withCredentials: true })
       .then((res) => setIsLoggedIn(res.data.success))
       .catch(() => setIsLoggedIn(false));
   }, []);

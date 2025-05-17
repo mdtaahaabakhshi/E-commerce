@@ -15,9 +15,9 @@ const token = req.cookies.token
     //     next();
     // }
    const token_decoded= jwt.verify(token, process.env.JWT_SECRET);
-    if (token_decoded !== process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD) {
-      return res.status(403).json({ success:false, message: "Not Authorized Login Again" ,message:error.message});
-    }
+    // if (token_decoded !== process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD) {
+    //   return res.status(403).json({ success:false, message: "Not Authorized Login Again" ,message:error.message});
+    // }
     next();
   } catch (error) {
     console.log("Error in adminAuth middleware:",error.message);
