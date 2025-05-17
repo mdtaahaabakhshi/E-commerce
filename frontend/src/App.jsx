@@ -12,21 +12,9 @@ import Cart from "./pages/Cart";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
-import { ToastContainer, toast } from 'react-toastify';
-import { useContext } from "react";
-import { ShopContext } from "./context/shopContext";
-import axios from "axios";
+import { ToastContainer } from 'react-toastify';
 const App = () => {
 
-  const { backendUrl, navigate, isLoggedIn, setIsLoggedIn } =
-    useContext(ShopContext);
-
-  //     useEffect(() => {
-  //   axios
-  //     .get(backendUrl + "/api/user/check",{ withCredentials: true })
-  //     .then((res) => setIsLoggedIn(res.data.success))
-  //     .catch(() => setIsLoggedIn(false));
-  // }, []);
   return (
     <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
          <ToastContainer />

@@ -12,7 +12,7 @@ const Navbar = () => {
 
  const handleLogout = async () => {
     await axios.post(
-      backendUrl + "/api/user/logout",
+      backendUrl + "/api/user/logoutUser",
       {},
       { withCredentials: true }
     );

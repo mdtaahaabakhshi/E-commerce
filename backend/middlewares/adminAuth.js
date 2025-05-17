@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 const adminAuth = (req, res, next) => {
   // const {token} = req.headers;
 
-const token = req.cookies.token
+const token = req.cookies.AdminToken
 // if (!token) {
 //   return res.status(401).json({ message: "Unauthorized Access!" });
 // }
@@ -15,9 +15,9 @@ const token = req.cookies.token
     //     next();
     // }
    const token_decoded= jwt.verify(token, process.env.JWT_SECRET);
-    // if (token_decoded !== process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD) {
-    //   return res.status(403).json({ success:false, message: "Not Authorized Login Again" ,message:error.message});
-    // }
+    if (token_decoded !== process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD) {
+      return res.status(403).json({ success:false, message: "Not Authorized Login Again" ,message:error.message});
+    }
     next();
   } catch (error) {
     console.log("Error in adminAuth middleware:",error.message);
@@ -25,3 +25,6 @@ const token = req.cookies.token
   }
   }
 export default adminAuth;
+
+
+//you have to create different logout for admin and user and different token's

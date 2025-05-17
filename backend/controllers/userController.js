@@ -45,6 +45,13 @@ const logoutUser = (req, res) => {
   });
   res.json({ success: true, message: "Logged out successfully" });
 };
+const logoutAdmin = (req, res) => {
+  res.clearCookie("AdminToken", {
+    httpOnly: true,
+    sameSite: "lax",
+  });
+  res.json({ success: true, message: "Logged out successfully" });
+};
 
 //Route for user registration
 const registerUser = async (req, res) => {
@@ -104,7 +111,7 @@ const adminLogin = async (req, res) => {
     ) {
       // Create JWT token
       const token = jwt.sign(email + password, process.env.JWT_SECRET);
-      res.cookie("token", token, {
+      res.cookie("AdminToken", token, {
         httpOnly: true,
         sameSite: "lax",
       });
@@ -118,4 +125,24 @@ const adminLogin = async (req, res) => {
   }
 };
 
-export { loginUser, registerUser, adminLogin, logoutUser };
+
+
+const check = (req, res, next) => {
+const token = req.cookies.token
+
+ if (!token) return res.json({ success: false ,message:"Unauthorized Access!"});
+  try {
+   const token_decoded= jwt.verify(token, process.env.JWT_SECRET);
+    if(token_decoded){
+      return res.json({success:true})
+    }
+    next();
+  } catch (error) {
+    console.log("Error in adminAuth middleware:",error.message);
+    return res.status(500).json({ success:false,message: error.message });
+  }
+  }
+
+
+
+export { loginUser, registerUser, adminLogin, logoutUser,logoutAdmin,check };
