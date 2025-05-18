@@ -1,11 +1,11 @@
 import express, { Router } from 'express';
-import { addToCart,updateCart,getUserCart } from '../controllers/cartController';
-import userAuth from '../middlewares/userAuth';
+import { addToCart,updateCart,getUserCart } from '../controllers/cartController.js';
+import userAuth from '../middlewares/userAuth.js';
 
 const cartRouter =express.Router();
 
-cartRouter.post('/get',userAuth,getUserCart);
-cartRouter.post('/update',userAuth,updateCart);
 cartRouter.post('/add',userAuth,addToCart);
+cartRouter.get('/get',userAuth,getUserCart);
+cartRouter.post('/update',userAuth,updateCart);
 
 export default cartRouter;

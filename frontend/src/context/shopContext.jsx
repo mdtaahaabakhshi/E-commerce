@@ -9,15 +9,16 @@ export const ShopContext = createContext();
 const ShopContextProvider = ({ children }) => {
   const currency = "$";
   const delivery_fee = 10;
-  const backendUrl = (import.meta.env.VITE_BACKEND_URL =
-    " http://localhost:5000");
+  const backendUrl = import.meta.env.VITE_BACKEND_URL =
+    " http://localhost:5000";
 
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
- const[isLoggedIn,setIsLoggedIn]=useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+
   const addToCart = async (productId, size) => {
     if (!size) {
       toast.error("Select Product Size ", {
@@ -46,7 +47,33 @@ const ShopContextProvider = ({ children }) => {
         prevCartItems[productId][size] = 1;
         return { ...prevCartItems };
       }
+
     });
+
+//     let cartData = structuredClone(cartItems);
+//     if (cartData[productId]) {
+//       if (cartData[productId][size]) {
+//         cartData[productId][size] += 1;
+//       } else {
+//         cartData[productId][size] = 1;
+//       }
+//     } else {
+//       cartData[productId] = {};
+//       cartData[productId][size] = 1;
+//     }
+// setCartItems(cartData)
+    if (isLoggedIn) {
+      try {
+        await axios.post(
+          backendUrl + "/api/cart/add",
+          { productId, size },
+          { withCredentials: true }
+        );
+      } catch (error) {
+        // console.log(error);
+        toast.error(error.message);
+      }
+    }
   };
 
   const getCartCount = () => {
@@ -67,7 +94,20 @@ const ShopContextProvider = ({ children }) => {
     let cartData = structuredClone(cartItems);
     cartData[productId][size] = quantity;
     setCartItems(cartData);
+    if (isLoggedIn) {
+      try {
+        await axios.post(
+          backendUrl + "/api/cart/update",
+          { productId, size,quantity },
+          { withCredentials: true }
+        );
+      } catch (error) {
+        console.log(error);
+        toast.error(error.message);
+      }
+    }
   };
+    
 
   const getCartAmount = () => {
     let amount = 0;
@@ -85,7 +125,7 @@ const ShopContextProvider = ({ children }) => {
   const getProducts = async () => {
     try {
       const response = await axios.get(backendUrl + "/api/product/list", {
-        withCredentials: true
+        withCredentials: true,
       });
       if (response.data.success) {
         setProducts(response.data.products);
@@ -93,21 +133,32 @@ const ShopContextProvider = ({ children }) => {
         toast.error(response.data.message);
       }
     } catch (error) {
-
       toast.error(error.message);
     }
   };
+
+  const getUserCart =async()=>{
+    try {
+      const response =await axios.get(backendUrl+'/api/cart/get',{withCredentials:true})
+      if (response.data.success) {
+        setCartItems(response.data.cartData)
+      }
+    } catch (error) {
+       console.log(error);
+toast.error(error.message)
+      }
+  }
   useEffect(() => {
     getProducts();
   }, []);
-  
-   useEffect(() => {
+
+  useEffect(() => {
     axios
-      .get(backendUrl + "/api/user/userAuth/check",{ withCredentials: true })
+      .get(backendUrl + "/api/user/userAuth/check", { withCredentials: true })
       .then((res) => setIsLoggedIn(res.data.success))
       .catch(() => setIsLoggedIn(false));
-      
-  }, []);
+         getUserCart();
+  }, [isLoggedIn]);
 
   const value = {
     products,
@@ -126,7 +177,7 @@ const ShopContextProvider = ({ children }) => {
     navigate,
     backendUrl,
     isLoggedIn,
-    setIsLoggedIn
+    setIsLoggedIn,
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
