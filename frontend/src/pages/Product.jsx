@@ -123,7 +123,7 @@ const Product = () => {
 
       {/*  Display Related Products*/}
 
-      <RelatedProduct category={product.category} subCategory={product.subCategory} /> 
+      <RelatedProduct category={product.category} subcategory={product.subcategory} /> 
     </div>
   ) : (
     <div className="opacity-0"></div>

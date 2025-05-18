@@ -1,6 +1,8 @@
 import express from 'express';
-import { loginUser, registerUser,adminLogin,logoutUser ,check, logoutAdmin} from '../controllers/userController.js';
+import { loginUser, registerUser,adminLogin,logoutUser , logoutAdmin} from '../controllers/userController.js';
 import adminAuth from '../middlewares/adminAuth.js';
+import userAuth from '../middlewares/userAuth.js';
+
 
 const userRouter = express.Router();
 
@@ -12,7 +14,9 @@ const userRouter = express.Router();
  userRouter.get('/admin/check', adminAuth, (req, res) => {
   res.json({ success: true });
 });
- userRouter.get('/check',check)
+ userRouter.get('/userAuth/check',userAuth, (req,res)=>{
+  res.json({success:true})
+ })
  
 
 

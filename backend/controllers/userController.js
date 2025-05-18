@@ -127,22 +127,22 @@ const adminLogin = async (req, res) => {
 
 
 
-const check = (req, res, next) => {
-const token = req.cookies.token
+// const check = (req, res, next) => {
+// const token = req.cookies.token
 
- if (!token) return res.json({ success: false ,message:"Unauthorized Access!"});
-  try {
-   const token_decoded= jwt.verify(token, process.env.JWT_SECRET);
-    if(token_decoded){
-      return res.json({success:true})
-    }
-    next();
-  } catch (error) {
-    console.log("Error in adminAuth middleware:",error.message);
-    return res.status(500).json({ success:false,message: error.message });
-  }
-  }
+//  if (!token) return res.json({ success: false ,message:"Unauthorized Access!"});
+//   try {
+//    const token_decoded= jwt.verify(token, process.env.JWT_SECRET);
+//     if(token_decoded){
+//       return res.json({success:true})
+//     }
+//     next();
+//   } catch (error) {
+//     console.log("Error in adminAuth middleware:",error.message);
+//     return res.status(500).json({ success:false,message: error.message });
+//   }
+//   }
 
 
 
-export { loginUser, registerUser, adminLogin, logoutUser,logoutAdmin,check };
+export { loginUser, registerUser, adminLogin, logoutUser,logoutAdmin };

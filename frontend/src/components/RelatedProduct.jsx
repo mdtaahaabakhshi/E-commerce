@@ -4,17 +4,17 @@ import { useContext, useState, useEffect } from "react";
 import Title from '../components/Title'
 import ProductItem from '../components/ProductItem';
 
-const RelatedProduct = ({category,subCategory}) => {
+const RelatedProduct = ({category,subcategory}) => {
 const {products} = useContext(ShopContext)
 const [related , setRelated ] = useState([])
 
 useEffect(() => {
     const relatedProducts = products.filter((product) => {
-        return product.category === category && product.subCategory === subCategory
+        return product.category === category && product.subcategory === subcategory
     })
     setRelated(relatedProducts.slice(0,5))
 }
-, [category, subCategory, products])
+, [category, subcategory, products])
 
   return (
     <div className='my-24'>

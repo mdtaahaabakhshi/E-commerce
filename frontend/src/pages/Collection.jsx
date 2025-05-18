@@ -6,7 +6,7 @@ import Title from "../components/Title";
 import ProductItem from "../components/ProductItem";
 
 const Collection = () => {
-  const { products,search,showSearch } = useContext(ShopContext);
+  const { products,search,showSearch,setSearch } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [Categories, setCategories] = useState([]);
   const [SubCategories, setSubCategories] = useState([]);
@@ -20,7 +20,6 @@ const Collection = () => {
         : [...prev, value]
     );
   };
-
   // Handle subcategory filter change
   const handleSubCategory = (e) => {
     const value = e.target.value;
@@ -35,7 +34,7 @@ const Collection = () => {
     const matchesCategory =
       Categories.length === 0 || Categories.includes(product.category);
     const matchesSubCategory =
-      SubCategories.length === 0 || SubCategories.includes(product.subCategory);
+      SubCategories.length === 0 || SubCategories.includes(product.subcategory);
     const matchesSearch =
       search === "" ||
       product.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -118,28 +117,28 @@ const Collection = () => {
               <input
                 className="w-3"
                 type="checkbox"
-                value={"Topwear"}
+                value={"TopWear"}
                 onChange={handleSubCategory}
               />
-              Topwear
+              TopWear
             </label>
             <label className="flex gap-2">
               <input
                 className="w-3"
                 type="checkbox"
-                value={"Bottomwear"}
+                value={"BottomWear"}
                 onChange={handleSubCategory}
               />
-              Bottomwear
+              BottomWear
             </label>
             <label className="flex gap-2">
               <input
                 className="w-3"
                 type="checkbox"
-                value={"Winterwear"}
+                value={"WinterWear"}
                 onChange={handleSubCategory}
               />
-              Winterwear
+              WinterWear
             </label>
           </div>
         </div>
@@ -168,7 +167,7 @@ const Collection = () => {
               name={item.name}
               price={item.price}
               category={item.category}
-              subCategory={item.subCategory}
+              subcategory={item.subcategory}
             />
             
           )
