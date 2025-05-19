@@ -4,10 +4,10 @@ import 'dotenv/config';
 import connectDB from './config/mongodb.js';
 import connectToCloudinary from './config/cloudinary.js';
 import userRouter from './routes/userRouter.js'
-// import productRouter from './routes/productRouter.js';
 import productRouter from './routes/productRouter.js';
-import cookieParser from 'cookie-parser';
 import cartRouter from './routes/cartRouter.js';
+import orderRouter from './routes/orderRouter.js';
+import cookieParser from 'cookie-parser';
 
 //* App config
 const app = express();  
@@ -17,7 +17,7 @@ connectToCloudinary();
 
 //* Middleware
 app.use(cors({
-  origin: ["http://localhost:5174","http://localhost:5173"] , // or your frontend URL
+  origin: ["http://localhost:5174","http://localhost:5173"] ,
   credentials: true
 }));
 app.use(express.json());
@@ -28,6 +28,7 @@ app.use(cookieParser())
 app.use('/api/user', userRouter);
 app.use('/api/product', productRouter);
 app.use('/api/cart',cartRouter)
+app.use('/api/order',orderRouter)
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
