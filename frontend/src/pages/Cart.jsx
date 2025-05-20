@@ -3,10 +3,11 @@ import { ShopContext } from "../context/shopContext";
 import Title from "../components/Title";
 import { assets } from "../assets/assets";
 import CartTotal from "../components/CartTotal";
+import { toast } from "react-toastify";
 
 
 const Cart = () => {
-  const { products, currency, cartItems ,updateQuantity,navigate ,getCartAmount} = useContext(ShopContext);
+  const { products, currency, cartItems ,updateQuantity,navigate ,getCartAmount,isLoggedIn} = useContext(ShopContext);
   const [CartData, setCartData] = useState([]);
 
   useEffect(() => {
@@ -67,7 +68,13 @@ const Cart = () => {
         {
           getCartAmount() ?
         <div className="w-full text-end">
-          <button onClick={()=>(navigate('/PlaceOrder'))} className="bg-black text-white text-sm my-8 px-8 py-3">PROCEED TO PAY</button>
+          <button onClick={() => {
+            if (!isLoggedIn) {
+              toast.error("Please login first");
+              return;
+            }
+            navigate('/PlaceOrder');
+          }} className="bg-black text-white text-sm my-8 px-8 py-3">PROCEED TO PAY</button>
         </div> 
         : ""
         }

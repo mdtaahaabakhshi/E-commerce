@@ -60,19 +60,22 @@ switch (method) {
   case 'cod':
   const response= await axios.post(backendUrl+'/api/order/place',orderData,{withCredentials:true})
     if (response.data.success) {
+      toast.success(response.data.message,{
+           draggable: true,
+        })
       setCartItems({})
         navigate('/orders')
     }
     else{
-      toast.error(response.data.message)
+      toast.error(response.data.message,{
+           draggable: true,
+        })
     }
     break;
 
   default:
     break;
 }
-
-
     } catch (error) {
 console.log(error)
       toast.error(error.message)
