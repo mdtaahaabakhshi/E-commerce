@@ -12,7 +12,7 @@ const Verify = () => {
   const [params] = useSearchParams();
   const success = params.get("success");
   const session_id = params.get("session_id");
-  //   const orderId=params.get('orderId')
+
 
   const verifyPayment = async () => {
     try {
