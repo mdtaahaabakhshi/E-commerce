@@ -18,7 +18,7 @@ const ShopContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-
+const [wishlistItems, setWishlistItems] = useState([]); // Wishlist state
   const addToCart = async (productId, size) => {
     if (!size) {
       toast.error("Select Product Size ", {
@@ -178,6 +178,8 @@ toast.error(error.message)
     backendUrl,
     isLoggedIn,
     setIsLoggedIn,
+    wishlistItems,
+    setWishlistItems,
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

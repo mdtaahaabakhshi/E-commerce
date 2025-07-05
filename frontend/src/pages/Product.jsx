@@ -6,7 +6,7 @@ import RelatedProduct from "../components/RelatedProduct";
 
 const Product = () => {
   const { productId } = useParams();
-  const { products, currency ,addToCart} = useContext(ShopContext);
+  const { products, currency ,addToCart,wishlistItems,setWishlistItems} = useContext(ShopContext);
   const [product, setProduct] = useState(false);
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
@@ -34,6 +34,17 @@ const Product = () => {
       behavior: "smooth", // Smooth scrolling effect
     });
   }, [productId, products]);
+
+
+const isWishListed = wishlistItems.includes(product._id);
+
+const handleWishlist = () => {
+  if (isWishListed) {
+    setWishlistItems(wishlistItems.filter(id => id !== product._id));
+  } else {
+    setWishlistItems([...wishlistItems, product._id]);
+  }
+};
 
   return product ? (
     <div className="border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100">
@@ -89,9 +100,13 @@ const Product = () => {
               ))}
             </div>
           </div>
+          <div className="flex gap-6 items-center">
+
+          <img  onClick={handleWishlist} className={`w-9 inline-flex items-center  justify-center rounded-full p-2 cursor-pointer ${isWishListed ? 'bg-red-600' :''}`} src={assets.wishlist_icon} alt="" />
           <button onClick={()=>addToCart(product._id,size)} className="bg-black text-white px-6 py-3 text-sm active:bg-gray-700">
             ADD TO CART
           </button>
+          </div>
           <hr className="mt-8 sm:w-4/5" />
           <div className="text-sm text-gray-500 mt-5 flex flex-col gap-1">
             <p>100% Original Product.</p>

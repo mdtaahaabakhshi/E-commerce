@@ -52,7 +52,7 @@ const Navbar = () => {
         </NavLink>
       </ul>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-6  ">
         {location.pathname.includes("/collection") ? (
           <img
             onClick={() => setShowSearch((prev) => !prev)}
@@ -63,6 +63,9 @@ const Navbar = () => {
         ) : (
           ""
         )}
+       <Link to="/wishlist">
+          <img src={assets.wishlist_icon} className="w-5 cursor-pointer" alt="" />
+       </Link>
         <div className="group relative">
           {/* <Link to='/login'> */}
           <img
