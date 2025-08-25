@@ -80,7 +80,7 @@ const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create new user
-    const newUser = new userModel({
+    const newUser = new UserModel({
       name,
       email,
       password: hashedPassword,
