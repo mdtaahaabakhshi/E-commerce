@@ -4,7 +4,7 @@ import { Link, NavLink } from "react-router-dom";
 import { ShopContext } from "../context/shopContext";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-const adminUrl = "http://localhost:5174"
+const adminUrl = "https://e-commerce-admin-alpha-green.vercel.app"
 const Navbar = () => {
   const [visible, setVisible] = useState(false);
   const {
