@@ -17,7 +17,7 @@ connectToCloudinary();
 
 //* Middleware
 app.use(cors({
-  origin: ["https://e-commerce-admin-alpha-green.vercel.app","http://localhost:5173"] ,
+  origin: ["https://e-commerce-admin-alpha-green.vercel.app","https://e-commerce-frontend-six-umber.vercel.app"] ,
   credentials: true
 }));
 app.use(express.json());
