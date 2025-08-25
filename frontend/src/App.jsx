@@ -13,8 +13,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import { ToastContainer } from 'react-toastify';
-import Verify from "./pages/verify";
-import WishList from "./pages/wishList";
+import Verify from "./pages/Verify";
+import WishList from "./pages/WishList";
 const App = () => {
 
   return (
